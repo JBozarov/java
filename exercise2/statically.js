@@ -8,15 +8,20 @@ class Statically {
     }
 
     static stubborn() {
-        this.moveAndShake();
+        // this.moveAndShake(); // this is non static method, We cannot invoke it inside a Class itself
         console.log("Please don't make me change... I just don't like it...");
     }
 
     static explain() {
-        stubborn();
-        console.log(#glue);
-        //write an explanation for how the keyword static behaves differently in javascript vs. java.
+        this.stubborn();
+        console.log(Statically.#glue); // glue is a static so It can be called only from the Class itself
+		console.log("I wrote explanation in each line where functions or variable invoked write an explanation for how the keyword static behaves differently in javascript vs. java. Another way of accessing #glue is using getter method, but I still have to call Class to access it")
     }
+
+		getGlue (){
+			return Statically.#glue;
+		}
+
 
 }
 
@@ -25,10 +30,11 @@ class Statically {
 const stats = new Statically();
 
 stats.moveAndShake();
-stubborn();
-stats.explain();
+Statically.stubborn(); // static method can be called by Class only not by Class instances
+Statically.explain(); // static method can be called by Class only not by Class instances
 
-console.log(stats.#glue);
-console.log(stats.jello);
+console.log(stats.getGlue()); // #glue cannot be invoked from instance either we need to use
+stats.getGlue() // In order to make getGlue to work, I returned Statically.#glue inside a getGlue because glue is a static and private variable
+// console.log(stats.jello);
 
-//Once you have finished getting statistically.js to run, refactor the code here in Java.
+// Once you have finished getting statistically.js to run, refactor the code here in Java.

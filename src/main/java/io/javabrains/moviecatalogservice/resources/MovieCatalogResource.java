@@ -5,6 +5,7 @@ import io.javabrains.moviecatalogservice.model.CatalogItem;
 import io.javabrains.moviecatalogservice.model.Movie;
 import io.javabrains.moviecatalogservice.model.UserRating;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,13 +24,13 @@ public class MovieCatalogResource {
 
   @Autowired WebClient.Builder webClientBuilder;
 
-  @RequestMapping("/{userId}")
+  @GetMapping("/{userId}")
   @HystrixCommand(fallbackMethod = "getFallbackCatalog")
-  public List<CatalogItem> getCatalog(@PathVariable String userId) {
+  public List<CatalogItem> getCatalog(@PathVariable("userId") String userId) {
 
     UserRating userRating =
         restTemplate.getForObject(
-            "http://rating-data-service:8083/ratingsdata/user/" + userId, UserRating.class);
+            "http://localhost:8083/ratingsdata/user/" + userId, UserRating.class);
 
     return userRating.getRatings().stream()
         .map(

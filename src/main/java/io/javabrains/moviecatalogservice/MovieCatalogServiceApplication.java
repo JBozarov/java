@@ -15,7 +15,7 @@ import org.springframework.web.client.RestTemplate;
 public class MovieCatalogServiceApplication {
 
   @Bean
-  @LoadBalanced
+  //@LoadBalanced
   public RestTemplate getRestTemplate() {
     HttpComponentsClientHttpRequestFactory httpComponentsClientHttpRequestFactory =
         new HttpComponentsClientHttpRequestFactory();

@@ -25,16 +25,10 @@ public class MovieCatalogResource {
   @Autowired WebClient.Builder webClientBuilder;
 
   @GetMapping("/{userId}")
-  @HystrixCommand(fallbackMethod = "getFallbackCatalog")
   public List<CatalogItem> getCatalog(@PathVariable("userId") String userId) {
     UserRating userRating = getUserRating(userId);
     return userRating.getRatings().stream().map(this::getCatalogItem).collect(Collectors.toList());
   }
-
-  public List<CatalogItem> getFallbackCatalog(@PathVariable("userId") String userId) {
-    return Arrays.asList(new CatalogItem("No movie", "", 0));
-  }
-
 
 
   @HystrixCommand(fallbackMethod = "getFallbackCatalogItem")
@@ -44,7 +38,7 @@ public class MovieCatalogResource {
   }
 
   private CatalogItem getFallbackCatalogItem(Rating rating) {
-    return null;
+    return new CatalogItem("Movie name not found", "No desc", rating.getRating());
   }
 
 
@@ -55,7 +49,7 @@ public class MovieCatalogResource {
   }
 
   private UserRating getFallbackUserRating(@PathVariable("userId") String userId) {
-    return null;
+    return new UserRating(Arrays.asList(new Rating("0", 0)));
   }
 
 }

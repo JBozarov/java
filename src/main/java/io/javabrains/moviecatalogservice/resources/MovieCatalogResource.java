@@ -44,7 +44,7 @@ public class MovieCatalogResource {
   }
 
   private CatalogItem getFallbackCatalogItem(Rating rating) {
-    return null;
+    return new CatalogItem("Movie name not found", "No desc", rating.getRating());
   }
 
 
@@ -55,7 +55,7 @@ public class MovieCatalogResource {
   }
 
   private UserRating getFallbackUserRating(@PathVariable("userId") String userId) {
-    return null;
+    return new UserRating(Arrays.asList(new Rating("0", 0)));
   }
 
 }

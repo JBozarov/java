@@ -25,16 +25,10 @@ public class MovieCatalogResource {
   @Autowired WebClient.Builder webClientBuilder;
 
   @GetMapping("/{userId}")
-  @HystrixCommand(fallbackMethod = "getFallbackCatalog")
   public List<CatalogItem> getCatalog(@PathVariable("userId") String userId) {
     UserRating userRating = getUserRating(userId);
     return userRating.getRatings().stream().map(this::getCatalogItem).collect(Collectors.toList());
   }
-
-  public List<CatalogItem> getFallbackCatalog(@PathVariable("userId") String userId) {
-    return Arrays.asList(new CatalogItem("No movie", "", 0));
-  }
-
 
 
   @HystrixCommand(fallbackMethod = "getFallbackCatalogItem")
